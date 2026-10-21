@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOC Email Signature</title>
+<link rel="apple-touch-icon" href="https://moc-email-signature.vercel.app/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="https://moc-email-signature.vercel.app/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="https://moc-email-signature.vercel.app/icon.svg">
+<meta property="og:title" content="MOC Email Signature">
+<meta property="og:description" content="MOC Products // Internal signature generator.">
+<meta property="og:image" content="https://moc-email-signature.vercel.app/apple-touch-icon.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MOC Email Signature">
+<meta name="twitter:image" content="https://moc-email-signature.vercel.app/apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #ffffff;
+    --panel: #f4f4f4;
+    --ink: #000000;
+    --ink-soft: #595959;
+    --ink-faint: #8a8a8a;
+    --line: #000000;
+    --line-soft: #d9d9d9;
+    --accent: #000000;
+    --accent-ink: #ffffff;
+    --field-bg: #ffffff;
+    --field-border: #cfcfcf;
+    --success: #1a7f37;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Proxima Nova', 'Helvetica Neue', Arial, sans-serif;
+    padding: 0 20px;
+    padding-block: 32px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .upper { text-transform: uppercase; }
+  .tw { letter-spacing: 0.12em; }
+  .tw-md { letter-spacing: 0.05em; }
+
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-bottom: 4px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    margin: 0 0 0 -3px;
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  header p {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    line-height: 1.5;
+  }
+
+  .kicker {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin: 0 0 6px;
+    white-space: nowrap;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  @media (max-width: 700px) {
+    main { grid-template-columns: 1fr; }
+  }
+
+  .black-bar {
+    background: var(--ink);
+    color: var(--accent-ink);
+    padding: 7px 16px;
+    font-weight: 700;
+    font-size: 10.5px;
+    margin-bottom: 16px;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+
+  label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  .field .hint {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    margin-top: 4px;
+  }
+
+  input[type="text"],
+  input[type="tel"] {
+    width: 100%;
+    font-family: 'Proxima Nova', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 12px;
+    border: 1px solid var(--field-border);
+    border-radius: 3px;
+    background: var(--field-bg);
+    color: var(--ink);
+  }
+
+  input:focus {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+
+  input.invalid {
+    border-color: #b3261e;
+  }
+
+  .preview-shell {
+    background: var(--panel);
+    border: 1px solid var(--line-soft);
+    padding: 24px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+
+  .preview-card {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #e4e4e4;
+    display: inline-block;
+    min-width: 320px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  button {
+    font-family: 'Proxima Nova', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  button.secondary {
+    background: #ffffff;
+    color: var(--ink);
+  }
+
+  button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  button:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  .status {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--success);
+    min-height: 16px;
+    margin: 6px 0 0;
+  }
+
+  .status.error { color: #b3261e; }
+
+  details {
+    margin-top: 18px;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 14px;
+  }
+
+  summary {
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .rules {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .rules ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .rules li { margin-bottom: 6px; }
+
+  .rules a {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .warning {
+    border-left: 4px solid var(--ink);
+    background: var(--panel);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+
+  .warning p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .warning p.label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0 0 6px;
+  }
+
+  .deploy {
+    margin-top: 44px;
+  }
+
+  .client-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--line-soft);
+    border: 1px solid var(--line-soft);
+    margin-top: 16px;
+  }
+
+  .client {
+    background: #ffffff;
+    padding: 16px 18px;
+  }
+
+  .client h3 {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .client ol {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .client ol li { margin-bottom: 4px; }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 14px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div>
+    <p class="kicker upper tw">MOC Products // Email Signature Tool</p>
+    <h1 class="upper">Email Signature</h1>
+    <p>Fill in your details, copy the finished signature, and paste it into your email client's signature settings.</p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="black-bar upper tw">Your Details</div>
+    <fieldset>
+      <div class="field">
+        <label for="f-name">Full name *</label>
+        <input type="text" id="f-name" autocomplete="name" placeholder="Jordan Alvarez">
+      </div>
+      <div class="field">
+        <label for="f-title">Title *</label>
+        <input type="text" id="f-title" placeholder="HR Manager">
+      </div>
+      <div class="field">
+        <label for="f-dept">Department or region</label>
+        <input type="text" id="f-dept" placeholder="West Region">
+        <p class="hint">Optional. Shown next to your title, e.g. "HR Manager // West Region".</p>
+      </div>
+      <div class="field">
+        <label for="f-office-phone">Office phone</label>
+        <input type="tel" id="f-office-phone" placeholder="818.794.3500">
+        <p class="hint">Optional. Your main office line, shown as "O:". Type it however you like // it's formatted automatically as 818.794.3500.</p>
+      </div>
+      <div class="field">
+        <label for="f-phone">Mobile phone</label>
+        <input type="tel" id="f-phone" placeholder="818.794.3546">
+        <p class="hint">Optional. Your company mobile, shown as "M:". Type it however you like // it's formatted automatically as 818.794.3546.</p>
+      </div>
+      <div class="field">
+        <label for="f-fax">Fax line</label>
+        <input type="tel" id="f-fax" placeholder="818.794.3501">
+        <p class="hint">Optional. Shown as "F:". Type it however you like // it's formatted automatically as 818.794.3501.</p>
+      </div>
+    </fieldset>
+
+    <details open>
+      <summary>What's locked in every signature</summary>
+      <div class="rules" style="margin-top:12px;">
+        <ul>
+          <li>The MOC mark, the divider rule, and the type sizes stay fixed so every signature in the company matches.</li>
+          <li>Colors are black, white, and gray only, per the <a href="https://moc-brand-site.vercel.app/" target="_blank" rel="noopener">MOC Brand Guidelines</a>.</li>
+          <li>The website line (mocproducts.com) is fixed and not editable here.</li>
+          <li>The signature sits on a fixed white card with the boxed MOC mark, so it stays legible if the recipient is reading in dark mode // no matter which email client they're using.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <div class="black-bar upper tw">Live Preview</div>
+    <div class="preview-shell">
+      <div class="preview-card" id="sig-preview"></div>
+    </div>
+
+    <div class="actions">
+      <button type="button" id="btn-copy">Copy Signature</button>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+
+    <div class="deploy">
+      <p style="font-size:12px; font-weight:700; color:var(--ink); max-width:70ch;">Click "Copy Signature" above first, then follow the steps below. The signature pastes in fully formatted, so there's nothing to redesign.</p>
+      <p style="font-size:12px; font-weight:700; color:var(--ink); max-width:70ch; margin-top:8px;">IMPORTANT: Paste with Ctrl/Cmd+V. DO NOT right-click and paste. Right-click method can break the formatting.</p>
+      <div class="black-bar upper tw" style="margin-top:12px;">Install It // Pick Your Email App</div>
+
+      <div class="warning">
+        <p class="label">Start from scratch</p>
+        <p>Create a brand-new signature // don't paste this into an existing one. Pasting into an old signature carries over its leftover fonts and spacing. Delete any signature you already have first, then add a new one and paste into that.</p>
+      </div>
+
+      <div class="client-grid">
+        <div class="client">
+          <h3 class="upper tw-md">Outlook (Desktop / Web Browser)</h3>
+          <ol>
+            <li>File &gt; Account Info &gt; Signatures &gt; + Add signature (button)</li>
+            <li>Click into the signature box</li>
+            <li>Paste (Ctrl/Cmd+V)</li>
+            <li>Add a signature name</li>
+            <li>Check box for &gt; Set default for new messages (optional)</li>
+            <li>Check box for &gt; Set default for replies and forwards (optional)</li>
+            <li>Save</li>
+          </ol>
+        </div>
+        <div class="client">
+          <h3 class="upper tw-md">Outlook (Mobile App)</h3>
+          <ol>
+            <li>Tap your profile icon next to "Inbox" (top left)</li>
+            <li>Tap Settings "gear icon" (bottom left)</li>
+            <li>Tap Signature</li>
+            <li>Tap in the signature box (delete any existing text)</li>
+            <li>Long press in the signature box to paste<br><span style="color:var(--ink-faint); font-style:italic;">If on an Android device, do not use the built-in "clipboard" feature above the keyboard.</span></li>
+            <li>Tap the check mark (top right) to save</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>MOC Products // Internal Tool // For Team Distribution</span>
+  <span>MOC-TPL-SIG // Rev 1.1</span>
+</footer>
+
+<script>
+(function () {
+  // The signature that gets copied out must reference a real public URL —
+  // that's what has to load inside an actual email client later. This is the
+  // brand site's official "Box Logo (Primary)" lockup (black field, white
+  // cutout wordmark) — used instead of the plain linear mark because a
+  // transparent black-ink logo disappears on a dark-mode background. The
+  // fixed black box guarantees contrast no matter what mode the recipient's
+  // client is in.
+  var LOGO_URL_EXTERNAL = "https://moc-brand-site.vercel.app/assets/logo/moc-box-primary.png";
+
+  // This page itself runs inside a sandboxed viewer that blocks loading images
+  // from outside hosts, so the on-screen preview uses an inlined copy of the
+  // same box lockup instead — cosmetic only, swapped for the real URL the
+  // moment anything is copied out.
+  var LOGO_BOX_DATA_URI = "data:image/png;base64,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";
+
+  var els = {
+    name: document.getElementById('f-name'),
+    title: document.getElementById('f-title'),
+    dept: document.getElementById('f-dept'),
+    officePhone: document.getElementById('f-office-phone'),
+    phone: document.getElementById('f-phone'),
+    fax: document.getElementById('f-fax'),
+    preview: document.getElementById('sig-preview'),
+    status: document.getElementById('status'),
+    btnCopy: document.getElementById('btn-copy')
+  };
+
+  function esc(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Normalizes any common US phone format (parens, dashes, dots, spaces,
+  // a leading country code) to "818.794.3500". Anything that isn't a
+  // standard 10-digit US number (an extension, a short internal line, a
+  // non-US number) is left exactly as typed rather than mangled.
+  function formatPhone(raw) {
+    var digits = String(raw || '').replace(/\D/g, '');
+    if (digits.length === 11 && digits.charAt(0) === '1') digits = digits.slice(1);
+    if (digits.length === 10) {
+      return digits.slice(0, 3) + '.' + digits.slice(3, 6) + '.' + digits.slice(6);
+    }
+    return String(raw || '').trim();
+  }
+
+  function buildSignatureHtml(logoSrc) {
+    var name = esc(els.name.value.trim().toUpperCase());
+    var title = esc(els.title.value.trim().toUpperCase());
+    var dept = esc(els.dept.value.trim().toUpperCase());
+    var officePhone = esc(formatPhone(els.officePhone.value));
+    var phone = esc(formatPhone(els.phone.value));
+    var fax = esc(formatPhone(els.fax.value));
+
+    var titleLine = title;
+    if (dept) titleLine += (title ? ' &#47;&#47; ' : '') + dept;
+
+    var phoneBits = [];
+    if (officePhone) phoneBits.push('<b>O:</b> ' + officePhone);
+    if (phone) phoneBits.push('<b>M:</b> ' + phone);
+    var contactLine = phoneBits.join(' &#47;&#47; ');
+    var faxLine = fax ? '<b>F:</b> ' + fax : '';
+
+    // The whole signature sits on a fixed white "card" (explicit background
+    // color + a thin border) rather than a transparent one. Dark-mode
+    // handling is wildly inconsistent across mail clients — some invert
+    // near-black text automatically, some (classic Outlook) don't touch
+    // inline colors at all — and this is a pasted table fragment with no
+    // <head>, so @media (prefers-color-scheme) rules would just get
+    // stripped by most signature editors anyway. A fixed light plate sidesteps
+    // all of that: the text stays black-on-white no matter what the rest of
+    // the email is doing. The box logo (black field, white mark) is the same
+    // fix applied to the mark itself, since the plain transparent linear logo
+    // would vanish on a dark background.
+    return [
+      '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; background-color:#ffffff;">',
+      '<tr><td style="padding:16px 20px;">',
+      '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; font-family:Arial,Helvetica,sans-serif;">',
+      '<tr>',
+      '<td style="padding:6px 18px 6px 0; border-right:2px solid #000000;" valign="top">',
+      '<img src="' + logoSrc + '" width="60" height="60" alt="MOC" style="display:block; border:0;">',
+      '</td>',
+      '<td style="padding:6px 0 6px 18px;" valign="top">',
+      '<table cellpadding="0" cellspacing="0" border="0"><tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:15px; font-weight:bold; color:#000000; padding-bottom:2px;">' + (name || 'YOUR NAME') + '</td></tr>',
+      (titleLine ? '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#595959; padding-bottom:11px;">' + titleLine + '</td></tr>' : ''),
+      (contactLine ? '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:11px; color:#000000; padding-bottom:' + (faxLine ? '2px' : '4px') + ';">' + contactLine + '</td></tr>' : ''),
+      (faxLine ? '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:11px; color:#000000; padding-bottom:4px;">' + faxLine + '</td></tr>' : ''),
+      // mocproducts.com is wrapped in a real <a> with its style forced inline
+      // rather than left as bare text. Several mail clients (Gmail chief
+      // among them) auto-link a bare domain-looking string on paste and
+      // apply their own default blue/underlined link style, discarding the
+      // small gray letter-spaced look entirely. An explicit anchor with its
+      // own inline color/text-decoration heads that off.
+      '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:9.5px; letter-spacing:1px; color:#8a8a8a; white-space:nowrap;"><a href="https://mocproducts.com" style="font-family:Arial,Helvetica,sans-serif; font-size:9.5px; letter-spacing:1px; color:#8a8a8a; text-decoration:none;">mocproducts.com</a></td></tr>',
+      '</table>',
+      '</td>',
+      '</tr>',
+      '</table>',
+      // A spacer div (not a margin on the table itself — Outlook ignores
+      // table margins) separates the signature block from the
+      // confidentiality notice below it, both still inside the same white
+      // card. The notice uses a monospace font at a small size, per the
+      // company's standard legal-footer style. No fixed width here — it's
+      // one paragraph that wraps to whatever width the email client's
+      // compose window gives it, rather than a width we dictate.
+      '<div style="height:26px; line-height:26px; font-size:1px;">&nbsp;</div>',
+      '<table cellpadding="0" cellspacing="0" border="0">',
+      // The font/size/color are declared on both the <td> AND a nested
+      // <span> around the text. Outlook's Word-based paste engine often
+      // flattens character styling that's only set at the cell level,
+      // falling back to the compose window's default font — repeating the
+      // same styles on an inline span survives that flattening far more
+      // reliably.
+      '<tr><td style="font-family:\'Courier New\', Courier, monospace; font-size:9px; line-height:1.2; color:#595959;">',
+      '<span style="font-family:\'Courier New\', Courier, monospace; font-size:9px; line-height:1.2; color:#595959;">',
+      'CONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete this message from your system. Any unauthorized disclosure, copying, distribution, or action taken in reliance on the contents of this information is strictly prohibited.',
+      '</span>',
+      '</td></tr>',
+      '</table>',
+      '</td></tr>',
+      '</table>'
+    ].join('');
+  }
+
+  function validate() {
+    var ok = true;
+    [els.name, els.title].forEach(function (el) {
+      if (!el.value.trim()) ok = false;
+    });
+    return ok;
+  }
+
+  function render() {
+    els.preview.innerHTML = buildSignatureHtml(LOGO_BOX_DATA_URI);
+    var ok = validate();
+    els.btnCopy.disabled = !ok;
+  }
+
+  function showStatus(msg, isError) {
+    els.status.textContent = msg;
+    els.status.classList.toggle('error', Boolean(isError));
+    if (!isError) {
+      window.clearTimeout(showStatus._t);
+      showStatus._t = window.setTimeout(function () { els.status.textContent = ''; }, 3500);
+    }
+  }
+
+  function copyRichPreview() {
+    // Copy from an off-screen copy built with the real external logo URL,
+    // never the visible preview (which uses the inlined data-URI version
+    // so it can render inside this page's own sandboxed viewer).
+    var staging = document.createElement('div');
+    staging.style.position = 'absolute';
+    staging.style.left = '-9999px';
+    staging.style.top = '0';
+    staging.innerHTML = buildSignatureHtml(LOGO_URL_EXTERNAL);
+    document.body.appendChild(staging);
+
+    var range = document.createRange();
+    range.selectNodeContents(staging);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    var ok = false;
+    try {
+      ok = document.execCommand('copy');
+    } catch (e) {
+      ok = false;
+    }
+    sel.removeAllRanges();
+    document.body.removeChild(staging);
+
+    if (ok) {
+      showStatus('Copied // paste into your email client’s signature box.');
+      return;
+    }
+
+    // Rare fallback: select the visible preview so Ctrl/Cmd+C still works.
+    var range2 = document.createRange();
+    range2.selectNodeContents(els.preview);
+    sel.removeAllRanges();
+    sel.addRange(range2);
+    showStatus('Couldn’t copy automatically. Press Ctrl/Cmd+C now // the signature is still selected above.', true);
+  }
+
+  [els.name, els.title, els.dept, els.officePhone, els.phone, els.fax].forEach(function (el) {
+    el.addEventListener('input', render);
+  });
+
+  els.btnCopy.addEventListener('click', copyRichPreview);
+
+  render();
+})();
+</script>
+
+</body>
+</html>
