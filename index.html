@@ -336,7 +336,7 @@
       <p class="sub micro">Locked in every signature</p>
       <ul>
         <li><span>The MOC box logo, the divider rule and the type sizes stay fixed, so every signature in the company matches.</span></li>
-        <li><span>Black and white only, per the <a href="https://moc-brand-site.vercel.app/" target="_blank" rel="noopener">MOC Brand Guidelines</a>.</span></li>
+        <li><span>Colors are black, white and gray only, per the <a href="https://moc-brand-site.vercel.app/" target="_blank" rel="noopener">MOC Brand Guidelines</a>.</span></li>
         <li><span>The website line (mocproducts.com) is fixed and not editable here.</span></li>
         <li><span>The signature sits on a fixed white card with the boxed MOC logo, so it stays readable in dark mode in any email app.</span></li>
       </ul>
@@ -474,16 +474,16 @@
       '</td>',
       '<td style="padding:6px 0 6px 18px;" valign="top">',
       '<table cellpadding="0" cellspacing="0" border="0"><tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:15px; font-weight:bold; color:#000000; padding-bottom:2px;">' + (name || 'YOUR NAME') + '</td></tr>',
-      (titleLine ? '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#000000; padding-bottom:11px;">' + titleLine + '</td></tr>' : ''),
+      (titleLine ? '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#595959; padding-bottom:11px;">' + titleLine + '</td></tr>' : ''),
       (contactLine ? '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:11px; color:#000000; padding-bottom:' + (faxLine ? '2px' : '4px') + ';">' + contactLine + '</td></tr>' : ''),
       (faxLine ? '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:11px; color:#000000; padding-bottom:4px;">' + faxLine + '</td></tr>' : ''),
       // mocproducts.com is wrapped in a real <a> with its style forced inline
       // rather than left as bare text. Several mail clients (Gmail chief
       // among them) auto-link a bare domain-looking string on paste and
       // apply their own default blue/underlined link style, discarding the
-      // small letter-spaced look entirely. An explicit anchor with its
+      // small gray letter-spaced look entirely. An explicit anchor with its
       // own inline color/text-decoration heads that off.
-      '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:9.5px; letter-spacing:1px; color:#000000; white-space:nowrap;"><a href="https://mocproducts.com" style="font-family:Arial,Helvetica,sans-serif; font-size:9.5px; letter-spacing:1px; color:#000000; text-decoration:none;">mocproducts.com</a></td></tr>',
+      '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:9.5px; letter-spacing:1px; color:#8a8a8a; white-space:nowrap;"><a href="https://mocproducts.com" style="font-family:Arial,Helvetica,sans-serif; font-size:9.5px; letter-spacing:1px; color:#8a8a8a; text-decoration:none;">mocproducts.com</a></td></tr>',
       '</table>',
       '</td>',
       '</tr>',
@@ -491,8 +491,9 @@
       // A spacer div (not a margin on the table itself, since Outlook ignores
       // table margins) separates the signature block from the
       // confidentiality notice below it, both still inside the same white
-      // card. The notice is set small in the same sans-serif as the rest
-      // (MOC: sans-serif only, so no Courier). No fixed width here: it's
+      // card. The notice uses a monospace font at a small size, per the
+      // company's standard legal-footer style (Andy, 2026-10-24: keep Courier
+      // New and the grays in the signature). No fixed width here: it's
       // one paragraph that wraps to whatever width the email client's
       // compose window gives it, rather than a width we dictate.
       '<div style="height:26px; line-height:26px; font-size:1px;">&nbsp;</div>',
@@ -503,8 +504,8 @@
       // falling back to the compose window's default font; repeating the
       // same styles on an inline span survives that flattening far more
       // reliably.
-      '<tr><td style="font-family:Arial,Helvetica,sans-serif; font-size:9px; line-height:1.3; color:#000000;">',
-      '<span style="font-family:Arial,Helvetica,sans-serif; font-size:9px; line-height:1.3; color:#000000;">',
+      '<tr><td style="font-family:\'Courier New\', Courier, monospace; font-size:9px; line-height:1.2; color:#595959;">',
+      '<span style="font-family:\'Courier New\', Courier, monospace; font-size:9px; line-height:1.2; color:#595959;">',
       'CONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete this message from your system. Any unauthorized disclosure, copying, distribution, or action taken in reliance on the contents of this information is strictly prohibited.',
       '</span>',
       '</td></tr>',
