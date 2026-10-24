@@ -1,49 +1,25 @@
-# MOC Email Signature — deploy to moc-email-signature.vercel.app
+# MOC Email Signature (MOC-TPL-SIG)
 
-This folder has one file: `index.html`. It's the finished, QA'd signature tool
-(same version as the Claude artifact), already wrapped as a complete static
-page — no build step, no dependencies, no server.
+Internal tool that builds the standard MOC email signature. Staff fill in their details, copy
+the finished signature, and paste it into Outlook.
 
-## Why I couldn't deploy this myself
+- `index.html`: the whole tool (one static page, no build step, no dependencies)
+- `icon.svg`, `apple-touch-icon.png`: browser and home-screen icons
 
-I tried to run the Vercel CLI from here and also from a shell on this Mac,
-and both times `npm` was blocked (403 Forbidden from the npm registry) before
-it could even install `vercel`. I also don't have a token for your Vercel
-account, so I can't deploy to your account via its API either way. Vercel
-deploys are tied to your login, so this last step has to run from your own
-terminal.
+The page follows MOC-BSM-001: black and white only, the MOC font stack (Proxima Nova, Helvetica
+Neue, Arial), caps labels at 0.10em, `//` separators. The signature itself uses Arial, since
+it has to render the same in every email app, and pulls the box logo from the brand site
+(`moc-brand-site.vercel.app/assets/logo/moc-box-primary.png`).
 
-## Deploy it (2 minutes)
+## Deploy
 
-From a normal Terminal window on this Mac (not through any assistant tool):
+One process for every MOC site: push to `main` on GitHub (`SiPEONER/moc-email-signature`) and
+Vercel deploys it automatically to moc-email-signature.vercel.app. No CLI or upload deploys.
 
 ```bash
-cd ~/moc-email-signature-deploy   # the folder you saved these two files into
-npx vercel --prod
+git add .
+git commit -m "Describe the change"
+git push origin main
 ```
 
-First run will ask you to log in (choose the same method you used for
-moc-brand-site — looks like GitHub) and to confirm the project settings:
-
-- **Set up and deploy?** Yes
-- **Which scope?** your account/team
-- **Link to existing project?** No
-- **Project name?** `moc-email-signature` — this is what fixes the URL to
-  `moc-email-signature.vercel.app`
-- **Directory?** `./` (current folder)
-- Vercel will detect it as a static site automatically — no framework, no
-  build command needed.
-
-That's it — it deploys immediately and gives you the live URL. Future edits:
-drop a new `index.html` in this same folder and run `npx vercel --prod` again.
-
-## If `npx vercel` also fails for you
-
-Use the Vercel dashboard instead, no CLI required:
-
-1. Push this folder to a new GitHub repo (or add it to an existing one).
-2. In the Vercel dashboard: **Add New… → Project → Import** that repo.
-3. Framework preset: **Other** (plain static site — Vercel will just serve
-   `index.html`).
-4. Set the project name to `moc-email-signature` before deploying, so the
-   URL matches.
+Commit as `SiPEONER <SiPEONER@users.noreply.github.com>` so Vercel matches the author to the team.
